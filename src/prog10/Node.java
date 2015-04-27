@@ -37,8 +37,8 @@ public class Node {
         if (node.left == null) {
             return expression;
         } else {
-            expression += toString0(node.left);
-            expression += toString0(node.right);
+            expression += "(" + toString0(node.left) + ",";
+            expression += toString0(node.right) + ")";
         }
         return expression;
     }

@@ -29,8 +29,12 @@ public class InFixBinaryTreeConverter {
 
     public void run(String e) {
         expression = e;
+        System.out.println(expression);
         createInFix();
         createBinaryTree();
+        System.out.println(btstack.get(0).toString());
+        //optimize(btstack.get(0));
+        //System.out.println(btstack.get(0));
     }
 
     private void createInFix() {
@@ -38,7 +42,7 @@ public class InFixBinaryTreeConverter {
         a = expression.split("\\s+");
         inFix.addAll(Arrays.asList(a));
     }
-    
+
     public void createBinaryTree() {
         stack.add("(");
         inFix.add(")");
@@ -54,33 +58,33 @@ public class InFixBinaryTreeConverter {
                     inFix.remove(0);
                 } else {
                     if (isOperator(inFix.get(0))) {
-                        while (isOperator(inFix.get(0)) && isHigherPrecedence(stack.get(stack.size()-1), inFix.get(0))) {
+                        while (isOperator(inFix.get(0)) && isHigherPrecedence(stack.get(stack.size() - 1), inFix.get(0))) {
                             Node n1 = btstack.get(0);
                             btstack.remove(0);
                             Node n2 = btstack.get(0);
                             btstack.remove(0);
 
-                            Node n3 = new Node(stack.get(stack.size()-1), n1, n2);
+                            Node n3 = new Node(stack.get(stack.size() - 1), n1, n2);
                             btstack.add(n3);
-                            stack.remove(stack.size()-1);
+                            stack.remove(stack.size() - 1);
                         }
                         stack.add(inFix.get(0));
                         inFix.remove(0);
                     } else {
                         if (isRParen(inFix.get(0))) {
-                            while (!isLParen(stack.get(stack.size()-1))) {
+                            while (!isLParen(stack.get(stack.size() - 1))) {
                                 Node n1 = btstack.get(0);
                                 btstack.remove(0);
                                 Node n2 = btstack.get(0);
                                 btstack.remove(0);
 
-                                Node n3 = new Node(stack.get(stack.size()-1), n1, n2);
+                                Node n3 = new Node(stack.get(stack.size() - 1), n1, n2);
                                 btstack.add(n3);
                                 //stack.add(inFix.get(0));
                                 inFix.remove(0);
-                                stack.remove(stack.size()-1);
+                                stack.remove(stack.size() - 1);
                             }
-                            stack.remove(stack.size()-1);
+                            stack.remove(stack.size() - 1);
                         }
                     }
                 }
@@ -88,8 +92,62 @@ public class InFixBinaryTreeConverter {
         }
     }
 
-    public Node optimize()
-    
+    public Node optimize(Node node) {
+        int result;
+        int a;
+        int b;
+
+        if (node == null) {
+            return null;
+        } else {
+            node.left = optimize(node.left);
+            node.right = optimize(node.right);
+        }
+        if (node.left != null || node.right != null) {
+            a = Integer.parseInt(node.left.toString());
+            b = Integer.parseInt(node.right.toString());
+
+            if (node.element.equals("*")) {
+                if (node.left.equals("0") || node.right.equals("0")) {
+                    node.element = "0";
+                } else {
+                    if (node.left.equals("1")) {
+                        node.element = node.right.toString();
+                    } else {
+                        if (node.right.equals("1")) {
+                            node.element = node.left.toString();
+                        } else {
+                            result = a * b;
+                            node.element = "";
+                            node.element += result;
+                        }
+                    }
+                }
+            } else {
+                if (node.element.equals("+")) {
+                    result = a + b;
+                    node.element = "";
+                    node.element += result;
+                } else {
+                    if (node.element.equals("-")) {
+
+                        result = a - b;
+                        node.element = "";
+                        node.element += result;
+                    } else {
+                        if (node.element.equals("/")) {
+                            result = a / b;
+                            node.element = "";
+                            node.element += result;
+                        }
+                    }
+                }
+            }
+        }
+
+        return node;
+    }
+
     public boolean isNumber(String s) {
         return s.matches("-?\\d+(\\.\\d+)?");
     }
