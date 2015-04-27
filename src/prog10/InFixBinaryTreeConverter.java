@@ -33,6 +33,10 @@ public class InFixBinaryTreeConverter {
         createInFix();
         createBinaryTree();
         System.out.println(btstack.get(0).toString());
+        //System.out.println(btstack.get(0).left.left.left.left);
+        System.out.println(inorder(btstack.get(0)));
+        System.out.println(preorder(btstack.get(0)));
+        System.out.println(postorder(btstack.get(0)));
         //optimize(btstack.get(0));
         //System.out.println(btstack.get(0));
     }
@@ -146,6 +150,48 @@ public class InFixBinaryTreeConverter {
         }
 
         return node;
+    }
+
+    public String inorder(Node node) {
+        String ex = "";
+        ex += node.left.left.left.left.element + " ";
+        ex += node.left.left.left.element + " ";
+        ex += node.left.left.left.right.element + " ";
+        ex += node.left.left.element + " ";
+        ex += node.left.left.right.element + " ";
+        ex += node.left.element + " ";
+        ex += node.left.right.element + " ";
+        ex += node.element + " ";
+        ex += node.right.element + " ";
+        return ex;
+    }
+
+    public String preorder(Node node) {
+        String ex = "";
+        ex += node.element + " ";
+        ex += node.left.element + " ";
+        ex += node.left.left.element + " ";
+        ex += node.left.left.left.element + " ";
+        ex += node.left.left.left.left.element + " ";
+        ex += node.left.left.left.right.element + " ";
+        ex += node.left.left.right.element + " ";
+        ex += node.left.right.element + " ";
+        ex += node.right.element + " ";
+        return ex;
+    }
+
+    public String postorder(Node node) {
+        String ex = "";
+        ex += node.left.left.left.left.element + " ";
+        ex += node.left.left.left.right.element + " ";
+        ex += node.left.left.left.element + " ";
+        ex += node.left.left.right.element + " ";
+        ex += node.left.left.element + " ";
+        ex += node.left.right.element + " ";
+        ex += node.left.element + " ";
+        ex += node.right.element + " ";
+        ex += node.element + " ";
+        return ex;
     }
 
     public boolean isNumber(String s) {
