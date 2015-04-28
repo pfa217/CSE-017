@@ -1,14 +1,13 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+CSE 17
+Pablo Aviles
+pfa217
+Program Description: Creates a binary tree to solve arithmetic expressions
+Program #10
+*/
+
 package prog10;
 
-/**
- *
- * @author Pablo
- */
 public class Node {
 
     String element;
@@ -20,17 +19,32 @@ public class Node {
         element = o;
     }
 
+    /**
+     * Node constructor
+     * @param o
+     * @param left
+     * @param right 
+     */
     public Node(String o, Node left, Node right) {
         this.left = left;
         this.right = right;
         element = o;
     }
 
+    /**
+     * Overrides toString by calling toString0()
+     * @return 
+     */
     @Override
     public String toString() {
         return toString0(this);
     }
 
+    /**
+     * Generates a String for the binary tree expression
+     * @param node
+     * @return 
+     */
     public String toString0(Node node) {
         String expression = "";
         expression += node.element;
